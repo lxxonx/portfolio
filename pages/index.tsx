@@ -1,17 +1,22 @@
-import { Box, Container, useScrollTrigger } from "@material-ui/core";
-import { indigo, lightBlue } from "@material-ui/core/colors";
+import { Box } from "@material-ui/core";
 import Head from "next/head";
 import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import Contact from "../components/Contact";
 import LayOut from "../components/LayOut";
 import ArrowDropDownCircleRoundedIcon from "@material-ui/icons/ArrowDropDownCircleRounded";
-
+import { useScroll } from "../hooks/useScroll";
 const Wrapper = styled.div`
   width: 100%;
   height: 100%;
+  position: relative;
+  transition: 1s;
+  overflow: hidden;
 `;
 
+const Page = styled(Box)`
+  transition: 1s;
+`;
 const TextBox = styled.div`
   position: absolute;
   top: 50%;
@@ -19,34 +24,12 @@ const TextBox = styled.div`
   transform: translate(-50%, -50%);
   align-items: center;
   justify-content: center;
-`;
-const Text = styled.div`
-  color: white;
-  font-size: 100px;
-  font-family: "Jua", sans-serif;
-`;
-const Names = styled.div`
-  display: flexbox;
-  flex-direction: row;
-  align-items: baseline;
-`;
-const ChineseName = styled.div`
-  margin-left: 30px;
-  color: white;
-  font-size: 150px;
-  font-family: "ZCOOL QingKe HuangYou", cursive;
-`;
-const KoreanName = styled.div`
-  color: white;
-  font-size: 100px;
-  font-family: "Jua", sans-serif;
-`;
-const Portfolio = styled.div`
-  color: white;
-  font-size: 100px;
   text-transform: uppercase;
-  font-family: "Jua", sans-serif;
+  color: white;
+  font-size: 60px;
+  font-family: "ZCOOL QingKe HuangYou", sans-serif;
 `;
+
 const Contents = styled.div`
   width: 100%;
   background-color: #fff;
@@ -54,42 +37,59 @@ const Contents = styled.div`
 interface Props {}
 
 function Home({}: Props): ReactElement {
-  const trigger = useScrollTrigger();
-  console.log(trigger);
+  const [sliderIndex, setSliderIndex] = useState(0);
+  console.log(sliderIndex);
+  const scrollEvent = (event: any) => {
+    console.log(event);
+    console.log(document.documentElement.clientHeight);
+
+    if (event.deltaY > 0) {
+      setSliderIndex(sliderIndex + 1);
+      document.documentElement.scrollTop +=
+        document.documentElement.clientHeight + 1;
+    } else if (event.deltaY < 0) {
+      if (sliderIndex !== 0) {
+        setSliderIndex(sliderIndex - 1);
+        document.documentElement.scrollTop -=
+          document.documentElement.clientHeight + 1;
+      }
+    }
+  };
+  useEffect(() => {
+    document.body.style.cssText = `overflow-y: hidden;`;
+    return () => {};
+  }, []);
   return (
-    <Wrapper>
+    <Wrapper onWheel={scrollEvent}>
       <Head>
         <title>Home</title>
       </Head>
-      <LayOut zIndex={0}>
-        <>
-          <TextBox>
-            <Names>
-              <Text>Hi! I am </Text>
-              <ChineseName> 李 元彰,</ChineseName>
-            </Names>
-            <Text>A Web Developer,</Text>
-            <Text>Living in Taejeon, KR</Text>
-          </TextBox>
-          <Box
-            display="flex"
-            flexDirection="column"
-            position="absolute"
-            bottom="30px"
-            left="50%"
-          >
-            <ArrowDropDownCircleRoundedIcon
-              style={{ color: "white", marginRight: "5px" }}
-              fontSize="large"
-            />
-          </Box>
-        </>
-      </LayOut>
-      <Box zIndex={1} paddingTop="100px" bgcolor="#fff" position="relative">
-        <Contents>
-          <Contact />
-        </Contents>
-      </Box>
+      <Page>
+        <LayOut zIndex={0}>
+          <>
+            <TextBox>welcome to onechang lee's portfolio</TextBox>
+            <Box
+              display="flex"
+              flexDirection="column"
+              position="absolute"
+              bottom="30px"
+              left="50%"
+            >
+              <ArrowDropDownCircleRoundedIcon
+                style={{ color: "white", marginRight: "5px" }}
+                fontSize="large"
+              />
+            </Box>
+          </>
+        </LayOut>
+      </Page>
+      <Page>
+        <Box zIndex={1} paddingTop="100px" bgcolor="#fff" width="100%">
+          <Contents>
+            <Contact />
+          </Contents>
+        </Box>
+      </Page>
     </Wrapper>
   );
 }

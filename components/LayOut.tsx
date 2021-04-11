@@ -1,4 +1,4 @@
-import { Box, Container } from "@material-ui/core";
+import { Box, Container, Slide, useScrollTrigger } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
@@ -12,12 +12,14 @@ interface Props {
   children: ReactElement;
   zIndex: number;
 }
+
 function getWindowHeight() {
   if (typeof window !== "undefined") {
     const { innerHeight: height } = window;
     return height;
   }
 }
+
 function LayOut({ children, zIndex }: Props): ReactElement {
   const [windowHeight, setWindowHeight] = useState(getWindowHeight());
   useEffect(() => {

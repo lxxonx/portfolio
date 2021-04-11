@@ -1,5 +1,12 @@
-import { Box, Container, Link, Typography } from "@material-ui/core";
-import React, { ReactElement } from "react";
+import {
+  Avatar,
+  Box,
+  Container,
+  Link,
+  Typography,
+  withStyles,
+} from "@material-ui/core";
+import React, { ReactElement, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import LayOut from "../components/LayOut";
 import LanguageIcon from "@material-ui/icons/Language";
@@ -10,6 +17,7 @@ import BuildIcon from "@material-ui/icons/Build";
 import ArrowDropDownCircleRoundedIcon from "@material-ui/icons/ArrowDropDownCircleRounded";
 import { indigo, purple, blueGrey } from "@material-ui/core/colors";
 import Head from "next/head";
+import { timeout } from "../components/utils";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -22,7 +30,13 @@ const Wrapper = styled.div`
 `;
 const Greeting = styled(Typography)`
   color: white;
-  font-family: "ZCOOL QingKe HuangYou", "Jua", sans-serif;
+  font-family: "ZCOOL QingKe HuangYou", sans-serif;
+
+  strong {
+    font-weight: 500;
+    :hover {
+    }
+  }
 `;
 const Tap = styled.div`
   display: flex;
@@ -41,7 +55,7 @@ const Tap = styled.div`
 `;
 const Title = styled.div`
   @media only screen and (min-width: 1280px) {
-    font-size: 2vw;
+    font-size: 45px;
   }
   font-size: 20px;
   color: ${blueGrey[700]};
@@ -49,6 +63,7 @@ const Title = styled.div`
   width: 100%;
   margin-bottom: 40px;
   margin-top: 30px;
+  font-family: "Jua", sans-serif;
 `;
 const Text = styled.div`
   @media only screen and (min-width: 1280px) {
@@ -60,10 +75,34 @@ const Text = styled.div`
   width: 100%;
   text-transform: capitalize;
 `;
+const Profile = withStyles({
+  root: {
+    width: "290px",
+    height: "290px",
+    marginRight: "30px",
+  },
+})(Avatar);
 interface Props {}
 
 function About({}: Props): ReactElement {
   const BigIconColor = purple[900];
+  const nameRef = useRef();
+  const names = ["이 원창", "李 元彰", "Onechang Lee"];
+
+  const [name, setName] = useState(names[1]);
+  const [active, setActive] = useState(false);
+  const changeNames = async () => {
+    let index = 0;
+    for (index; index < names.length; index++) {
+      await timeout(500);
+      setName(names[index]);
+    }
+    if (index === names.length) {
+      index = 0;
+    }
+  };
+
+  useEffect(() => {}, [active]);
   return (
     <Box>
       <Head>
@@ -72,12 +111,22 @@ function About({}: Props): ReactElement {
       <LayOut zIndex={0}>
         <>
           <Wrapper>
-            <Greeting variant="h3">
-              Hi, I'm 李 元彰, a Web developer living in Korea <br /> Love to
-              try and learn new things <br /> Always down for a good coffee or
-              beer <br /> If you'd like to have a chat with me, <br />
-              please contact me withe these channels
-            </Greeting>
+            <Box display="flex" flexDirection="row" alignItems="center">
+              <Profile src="/profile2.jpg" />
+              <Greeting variant="h3">
+                Hi, I'm{" "}
+                <strong
+                  onMouseOver={() => {
+                    setActive(true);
+                  }}
+                  onMouseOut={() => setActive(false)}
+                >
+                  {name}
+                </strong>
+                , a Web developer living in Korea <br /> Love to try and learn
+                new things <br /> Always down for a good coffee and beer
+              </Greeting>
+            </Box>
             <Box
               display="flex"
               flexDirection="column"
@@ -147,8 +196,8 @@ function About({}: Props): ReactElement {
               <BuildIcon style={{ color: BigIconColor, fontSize: "10vw" }} />
               <Title>Tools I can Use</Title>
               <Text>
-                Apollo, Express, Graphql, node.js, prismaORM, react.js, react
-                native, next.js and more...
+                Apollo, Express, Graphql, postgresql, node.js, prismaORM,
+                react.js, react native, next.js and more...
               </Text>
             </Tap>
             <Tap>

@@ -1,7 +1,14 @@
 import React, { ReactElement } from "react";
 import LinksList from "./LinksList";
 import styled from "styled-components";
-import { Box, Container, Link, Typography } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  Link,
+  Slide,
+  Typography,
+  useScrollTrigger,
+} from "@material-ui/core";
 import { blueGrey } from "@material-ui/core/colors";
 
 const Nav = styled.nav`
@@ -19,6 +26,7 @@ const Logo = styled(Typography)`
   font-size: 30px;
   font-family: "Bebas Neue", cursive;
 `;
+
 interface Props {}
 
 function Navbar({}: Props): ReactElement {
