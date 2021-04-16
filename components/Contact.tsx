@@ -38,7 +38,6 @@ const Message = withStyles({
   },
 })(TextField);
 const Wrapper = styled.div`
-  height: 2000px;
   padding: 100px;
 `;
 const Text = styled.div`
@@ -52,7 +51,7 @@ interface Props {}
 
 function Contact({}: Props): ReactElement {
   return (
-    <Container maxWidth={"sm"} id="contact">
+    <Container maxWidth={"sm"}>
       <Text>contact</Text>
       <Form>
         <Box

@@ -22,7 +22,7 @@ interface Props {}
 function LinksList({}: Props): ReactElement {
   return (
     <Box display="flex" flexDirection="row" alignItems="center">
-      <TextLink href="/#contact" underline="none">
+      <TextLink href="/contact" underline="none">
         <Text> Contact</Text>
       </TextLink>
       <TextLink href="/about" underline="none">

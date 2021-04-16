@@ -2,22 +2,11 @@ import { Box, Container, Slide, useScrollTrigger } from "@material-ui/core";
 import React, { ReactElement, useEffect, useState } from "react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
+import { getWindowHeight } from "./utils";
 
-const ImageWrapper = styled.div`
-  position: sticky;
-  z-index: 0;
-  top: 0;
-`;
 interface Props {
   children: ReactElement;
   zIndex: number;
-}
-
-function getWindowHeight() {
-  if (typeof window !== "undefined") {
-    const { innerHeight: height } = window;
-    return height;
-  }
 }
 
 function LayOut({ children, zIndex }: Props): ReactElement {

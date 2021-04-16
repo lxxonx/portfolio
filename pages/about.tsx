@@ -17,7 +17,8 @@ import BuildIcon from "@material-ui/icons/Build";
 import ArrowDropDownCircleRoundedIcon from "@material-ui/icons/ArrowDropDownCircleRounded";
 import { indigo, purple, blueGrey } from "@material-ui/core/colors";
 import Head from "next/head";
-import { timeout } from "../components/utils";
+import { getWindowHeight, timeout } from "../components/utils";
+import Footer from "../components/Footer";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -67,13 +68,14 @@ const Title = styled.div`
 `;
 const Text = styled.div`
   @media only screen and (min-width: 1280px) {
-    font-size: 1.5vw;
+    font-size: 30px;
   }
   font-size: 15px;
   color: ${blueGrey[700]};
   text-align: left;
   width: 100%;
   text-transform: capitalize;
+  font-family: "Gamja Flower", cursive;
 `;
 const Profile = withStyles({
   root: {
@@ -86,23 +88,19 @@ interface Props {}
 
 function About({}: Props): ReactElement {
   const BigIconColor = purple[900];
-  const nameRef = useRef();
   const names = ["이 원창", "李 元彰", "Onechang Lee"];
+  const [windowHeight, setWindowHeight] = useState(getWindowHeight());
 
   const [name, setName] = useState(names[1]);
   const [active, setActive] = useState(false);
-  const changeNames = async () => {
-    let index = 0;
-    for (index; index < names.length; index++) {
-      await timeout(500);
-      setName(names[index]);
-    }
-    if (index === names.length) {
-      index = 0;
-    }
-  };
 
-  useEffect(() => {}, [active]);
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [active]);
   return (
     <Box>
       <Head>
@@ -174,15 +172,21 @@ function About({}: Props): ReactElement {
             left="50%"
           >
             <ArrowDropDownCircleRoundedIcon
-              style={{ color: "white", marginRight: "5px" }}
-              fontSize="large"
+              style={{ color: "white", marginRight: "5px", fontSize: "40px" }}
             />
           </Box>
         </>
       </LayOut>
-      <Box zIndex={1} paddingTop="100px" bgcolor="white" position="relative">
+      <Box
+        zIndex={1}
+        bgcolor="white"
+        position="relative"
+        height={windowHeight - 200}
+        display="flex"
+        alignItems="center"
+      >
         <Container maxWidth="lg">
-          <Box display="flex" flexDirection="row" height="2000px">
+          <Box display="flex" flexDirection="row">
             <Tap>
               <LanguageIcon style={{ color: BigIconColor, fontSize: "10vw" }} />
               <Title>Languages I speak</Title>
@@ -208,6 +212,7 @@ function About({}: Props): ReactElement {
           </Box>
         </Container>
       </Box>
+      <Footer />
     </Box>
   );
 }
