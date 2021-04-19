@@ -12,41 +12,46 @@ function Footer({}: Props): ReactElement {
       bgcolor="primary.main"
       zIndex={1}
       position="relative"
-      height="200px"
-      paddingY="50px"
+      height="120px"
+      paddingTop="30px"
     >
       <Container maxWidth="md">
-        <Box>
-          <Box id="links">
-            <Box display="flex" flexDirection="row">
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Box
+            id="description"
+            color="text.primary"
+            display="flex"
+            flexDirection="column"
+          >
+            <Typography>© 2021 Onechang Lee</Typography>
+            <Typography>
+              This web site is made with Nest.js/style component/material UI
+            </Typography>
+          </Box>
+          <Box id="links" display="flex" flexDirection="row">
+            <Link href="/contact">
               <EmailIcon
                 style={{ color: "white", marginRight: "5px" }}
-                fontSize="small"
+                fontSize="default"
               />
-              <Link href="/#contact">
-                <Typography style={{ color: "white" }}>
-                  developerleeon@gmail.com
-                </Typography>
-              </Link>
-            </Box>
-            <Box display="flex" flexDirection="row">
+            </Link>
+            <Link href="https://www.instagram.com/______lxxonx/">
               <InstagramIcon
                 style={{ color: "white", marginRight: "5px" }}
-                fontSize="small"
+                fontSize="default"
               />
-              <Link href="https://www.instagram.com/______lxxonx/">
-                <Typography style={{ color: "white" }}>______lxxonx</Typography>
-              </Link>
-            </Box>
-            <Box display="flex" flexDirection="row">
+            </Link>
+            <Link href="https://github.com/devleeon">
               <GitHubIcon
                 style={{ color: "white", marginRight: "5px" }}
-                fontSize="small"
+                fontSize="default"
               />
-              <Link href="https://github.com/devleeon">
-                <Typography style={{ color: "white" }}>devleeon</Typography>
-              </Link>
-            </Box>
+            </Link>
           </Box>
         </Box>
       </Container>

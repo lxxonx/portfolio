@@ -1,4 +1,4 @@
-import { Box, Container, Slide } from "@material-ui/core";
+import { Box, Container, Slide, Typography } from "@material-ui/core";
 import Head from "next/head";
 import React, { ReactElement, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
@@ -6,6 +6,8 @@ import Contact from "../components/Contact";
 import ArrowDropDownCircleRoundedIcon from "@material-ui/icons/ArrowDropDownCircleRounded";
 import Navbar from "../components/Navbar";
 import { getWindowHeight } from "../components/utils";
+import Portfolio from "../components/Portfolio";
+import Footer from "../components/Footer";
 
 const TextBox = styled.div`
   position: absolute;
@@ -27,17 +29,21 @@ function Home({}: Props): ReactElement {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [windowHeight, setWindowHeight] = useState(getWindowHeight());
   const scrollEvent = (event: any) => {
-    if (event.deltaY > 0) {
-      setPrevIndex(currentIndex);
-      setCurrentIndex(currentIndex + 1);
-    } else if (event.deltaY < 0) {
-      if (currentIndex !== 0) {
-        setPrevIndex(currentIndex);
-        setCurrentIndex(currentIndex - 1);
+    setTimeout(() => {
+      if (event.deltaY > 4) {
+        if (currentIndex !== 2) {
+          setPrevIndex(currentIndex);
+          setCurrentIndex(currentIndex + 1);
+        }
+      } else if (event.deltaY < -4) {
+        if (currentIndex !== 0) {
+          setPrevIndex(currentIndex);
+          setCurrentIndex(currentIndex - 1);
+        }
       }
-    }
+    }, 500);
   };
-  console.log(currentIndex);
+  // console.log("currentIndex: ", currentIndex);
   useEffect(() => {
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
@@ -54,18 +60,18 @@ function Home({}: Props): ReactElement {
       <Navbar />
       <Slide in={currentIndex === 0} mountOnEnter unmountOnExit>
         <Box height={windowHeight} bgcolor="primary.main">
-          <TextBox>welcome to onechang lee's portfolio</TextBox>
+          <TextBox>onechang lee's portfolio</TextBox>
           <Box
             display="flex"
             flexDirection="column"
             position="absolute"
             bottom="30px"
-            left="50%"
+            width="100%"
+            alignItems="center"
+            color="text.primary"
           >
-            <ArrowDropDownCircleRoundedIcon
-              style={{ color: "white", marginRight: "5px" }}
-              fontSize="large"
-            />
+            <Typography>scroll to explore</Typography>
+            <ArrowDropDownCircleRoundedIcon fontSize="large" />
           </Box>
         </Box>
       </Slide>
@@ -78,16 +84,13 @@ function Home({}: Props): ReactElement {
       >
         <Box
           zIndex={1}
-          paddingTop="100px"
-          bgcolor="#fff"
+          bgcolor="white"
           width="100%"
           height={windowHeight}
           position="absolute"
           top={0}
         >
-          <Container maxWidth="lg">
-            <Box>portfolio</Box>
-          </Container>
+          <Portfolio />
         </Box>
       </Slide>
       <Slide
@@ -100,13 +103,15 @@ function Home({}: Props): ReactElement {
         <Box
           zIndex={1}
           paddingTop="100px"
-          bgcolor="#fff"
+          bgcolor="text.primary"
           width="100%"
           height={windowHeight}
           position="absolute"
           top={0}
           display="flex"
+          flexDirection="column"
           alignItems="center"
+          justifyContent="center"
         >
           <Contact />
         </Box>
