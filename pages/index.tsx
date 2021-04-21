@@ -53,7 +53,7 @@ function Home({}: Props): ReactElement {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <Box height={windowHeight} onWheel={scrollEvent}>
+    <Box height={windowHeight} onWheel={scrollEvent} >
       <Head>
         <title>Home</title>
       </Head>

@@ -2,7 +2,9 @@ import {
   Avatar,
   Box,
   Container,
+  Grow,
   Link,
+  RootRef,
   Typography,
   useMediaQuery,
   withStyles,
@@ -26,6 +28,7 @@ import { getWindowHeight, timeout } from "../components/utils";
 import Footer from "../components/Footer";
 import theme from "../styles/theme";
 import Bio from "../components/Bio";
+import { useScroll } from "../hooks/useScroll";
 
 const Wrapper = styled.div`
   position: absolute;
@@ -114,6 +117,7 @@ function About({}: Props): ReactElement {
   const names = ["이 원창", "李 元彰", "Onechang Lee"];
   const [windowHeight, setWindowHeight] = useState(getWindowHeight());
   const matches = useMediaQuery(theme.breakpoints.down("md"));
+  const growIn = useScroll({ id: "in", threshHold: 2 });
 
   const [name, setName] = useState(names[1]);
   const [active, setActive] = useState(false);
@@ -203,28 +207,34 @@ function About({}: Props): ReactElement {
             flexDirection="row"
             justifyContent="center"
           >
-            <Tap color="secondary.dark" borderColor="secondary.dark">
-              <LanguageIcon style={{ fontSize: "10vw" }} />
-              <Title>Languages</Title>
-              <Text>
-                한국어, English, 日本語, html/css, Javascript, python, Java,
-                Golang, C and more...
-              </Text>
-            </Tap>
-            <Tap color="secondary.dark">
-              <TuneIcon style={{ fontSize: "10vw" }} />
-              <Title>Frameworks</Title>
-              <Text>
-                React.js, React native, Node.js, Apollo/Graphql, Django
-              </Text>
-            </Tap>
-            <Tap color="secondary.dark">
-              <BuildIcon style={{ fontSize: "10vw" }} />
-              <Title>Tools</Title>
-              <Text>
-                Git, Redis, PostgreSQL, Prisma ORM, Docker, Linux, Firebase
-              </Text>
-            </Tap>
+            <Grow in={growIn}>
+              <Tap color="secondary.dark">
+                <LanguageIcon style={{ fontSize: "10vw" }} />
+                <Title>Languages</Title>
+                <Text>
+                  한국어, English, 日本語, html/css, Javascript, python, Java,
+                  Golang, C and more...
+                </Text>
+              </Tap>
+            </Grow>
+            <Grow in={growIn} {...(growIn ? { timeout: 700 } : {})}>
+              <Tap color="secondary.dark">
+                <TuneIcon style={{ fontSize: "10vw" }} />
+                <Title>Frameworks</Title>
+                <Text>
+                  React.js, React native, Node.js, Apollo/Graphql, Django
+                </Text>
+              </Tap>
+            </Grow>
+            <Grow in={growIn} {...(growIn ? { timeout: 1000 } : {})}>
+              <Tap color="secondary.dark" id="in">
+                <BuildIcon style={{ fontSize: "10vw" }} />
+                <Title>Tools</Title>
+                <Text>
+                  Git, Redis, PostgreSQL, Prisma ORM, Docker, Linux, Firebase
+                </Text>
+              </Tap>
+            </Grow>
           </Box>
         </Container>
       </Box>
