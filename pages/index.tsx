@@ -53,14 +53,14 @@ function Home({}: Props): ReactElement {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
-    <Box height={windowHeight} onWheel={scrollEvent} >
+    <Box height={windowHeight} onWheel={scrollEvent}>
       <Head>
         <title>Home</title>
       </Head>
       <Navbar />
       <Slide in={currentIndex === 0} mountOnEnter unmountOnExit>
         <Box height={windowHeight} bgcolor="primary.main">
-          <TextBox>onechang lee's portfolio</TextBox>
+          <TextBox>onechang lee's portfolio.</TextBox>
           <Box
             display="flex"
             flexDirection="column"
